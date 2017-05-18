@@ -1,13 +1,17 @@
 const config = ($stateProvider, $urlServiceProvider, storeProvider, appReducers) => {
-    $stateProvider.state("index", {
-        url: "/",
+    $stateProvider.state("app", {
+        abstract: true,
+        // url: ""
+    });
+    $stateProvider.state("app.home", {
+        url: "/home",
         template: `
             <app></app>
             <app-less-boilerplate></app-less-boilerplate>
         `,
     });
     // when there is an empty route, redirect to /index
-    $urlServiceProvider.rules.otherwise({ state: 'index' });
+    $urlServiceProvider.rules.otherwise({ state: 'app.home' });
 
     // create store
     storeProvider.setOptions({
@@ -16,7 +20,7 @@ const config = ($stateProvider, $urlServiceProvider, storeProvider, appReducers)
 };
 
 angular
-    .module("app", ["ui.router"])
+    .module("app", ["ui.router", "app.settings"])
     .config(config)
     .run(() => {
         console.log("run");

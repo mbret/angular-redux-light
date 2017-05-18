@@ -12,7 +12,7 @@ class Store {
         return this.state;
     }
 
-    connect(mapStateToProps, mapDispatchToProps) {
+    connect(mapStateToProps = () => {}, mapDispatchToProps = () => {}) {
 
         let props = mapStateToProps(this.getState()) || {};
 

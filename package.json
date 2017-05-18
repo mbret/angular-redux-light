@@ -1,0 +1,15 @@
+{
+  "name": "angular-redux",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.component.js",
+  "dependencies": {
+    "http-server": "^0.10.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "http-server"
+  },
+  "author": "",
+  "license": "ISC"
+}

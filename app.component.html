@@ -1,0 +1,24 @@
+<div>
+    <h1>App</h1>
+    <hr>
+    <div class="alert alert-info" role="alert" ng-repeat="alert in $ctrl.alerts">
+        <strong>Heads up!</strong> {{alert.text}}
+    </div>
+    <button ng-click="$ctrl.removeAlerts()">Remove alerts</button>
+    <hr>
+    <form>
+        <input type="text" value="" ng-model="$ctrl.data.todo"/>
+        <button ng-click="$ctrl.onNewTodo()">Add todo</button>
+        <button ng-click="$ctrl.removeTodos()">Remove all todos</button>
+    </form>
+    <hr>
+
+    todo:{{todos}}
+    <div class="card" ng-repeat="todo in $ctrl.todos">
+        <div class="card-block">
+            This is some text within a card block.
+        </div>
+    </div>
+
+    <ui-view></ui-view>
+</div>

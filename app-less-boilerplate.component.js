@@ -12,20 +12,18 @@
         }
     }
 
-    const container = (store, appActionsCreator) => {
-        return store.connect(
-            (state) => {
-                return {
-                    todos: state.todos
-                }
-            },
-            (dispatch) => store.bindActionCreator(appActionsCreator, dispatch)
-        )(AppLessBoilerplate);
-    };
-
     const component = {
         templateUrl: "app.component.html",
-        controller: container
+        controller: (store, appActionsCreator) => {
+            return store.connect(
+                (state) => {
+                    return {
+                        todos: state.todos
+                    }
+                },
+                (dispatch) => store.bindActionCreator(appActionsCreator, dispatch)
+            )(AppLessBoilerplate);
+        }
     };
 
     angular

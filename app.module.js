@@ -9,14 +9,15 @@ const config = ($stateProvider, $urlServiceProvider, storeProvider, appReducers)
     // when there is an empty route, redirect to /index
     $urlServiceProvider.rules.otherwise({ state: 'index' });
 
+    // create store
     storeProvider.setOptions({
         reducers: appReducers
-    })
+    });
 };
 
 angular
     .module("app", ["ui.router"])
     .config(config)
-    .run((store) => {
+    .run(() => {
         console.log("run");
     });

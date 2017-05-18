@@ -19,12 +19,7 @@
                     todos: state.todos
                 }
             },
-            (dispatch) => {
-                return {
-                    addTodo: (text) => dispatch(appActionsCreator.addTodo(text)),
-                    removeTodos: () => dispatch(appActionsCreator.removeTodos())
-                }
-            }
+            (dispatch) => store.bindActionCreator(appActionsCreator, dispatch)
         )(AppLessBoilerplate);
     };
 

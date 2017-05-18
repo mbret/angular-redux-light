@@ -57,6 +57,10 @@ class Store {
             container.instance.$onStateChanges(this.getState())
         });
     }
+
+    bindActionCreator(actionCreator, dispatch) {
+        return (...args) => dispatch(actionCreator(...args));
+    }
 }
 
 const provider = function($injector) {

@@ -2,6 +2,7 @@
     class AppLessBoilerplate {
 
         constructor() {
+            console.log("AppLessBoilerplate", this)
             this.data = {
                 todo: "test"
             };
@@ -13,7 +14,7 @@
     }
 
     const component = {
-        templateUrl: "app.component.html",
+        templateUrl: "app-less-boilerplate.component.html",
         controller: (store, appActionsCreator) => {
             return store.connect(
                 (state) => {

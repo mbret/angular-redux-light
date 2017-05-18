@@ -1,21 +1,19 @@
 (function() {
     class Settings {
-
         constructor() {
-            this.data = {
-                todo: "test"
-            };
-        }
-
-        onNewTodo() {
-            this.addTodo(this.data.todo);
+            console.log(this);
         }
     }
 
     const component = {
         templateUrl: "settings/settings.component.html",
-        controller: (store) => {
-            return store.connect()(Settings);
+        controller: (store, appActionsCreator) => {
+            return store.connect(
+                (state) => {
+                    return {}
+                },
+                (dispatch) => store.bindActionCreator(appActionsCreator, dispatch)
+            )(Settings);
         }
     };
 

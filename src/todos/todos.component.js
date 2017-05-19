@@ -9,6 +9,7 @@
         }
 
         $onStateChanges(state) {
+            console.log("Todos: $onStateChanges", state);
             this.alerts.push({
                 date: new Date(),
                 text: "state has been updated"

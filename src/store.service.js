@@ -1,7 +1,8 @@
 (function() {
     class Store {
-        constructor(reducers, $injector) {
+        constructor(reducers, $injector, $log) {
             this.$injector = $injector;
+            this.$log = $log;
             this.containers = [];
             this.reducers = reducers;
             this.state = {
@@ -14,7 +15,7 @@
         }
 
         connect(mapStateToProps = () => {}, mapDispatchToProps = () => {}) {
-
+            let self = this;
             let props = mapStateToProps(this.getState()) || {};
 
             return (controller) => {
@@ -27,14 +28,37 @@
                 }));
 
                 instance = Object.assign(instance, props);
-                if (!instance.$onStateChanges) {
-                    instance.$onStateChanges = () => {};
-                }
-                this.containers.push({
+
+                let container = {
                     mapStateToProps: mapStateToProps,
                     instance: instance,
                     name: controller.name
-                });
+                };
+                this.containers.push(container);
+
+                // apply default required method
+                if (!instance.$onStateChanges) {
+                    instance.$onStateChanges = () => {};
+                }
+                if (!instance.$onDestroy) {
+                    instance.$onDestroy = () => {};
+                }
+
+                // listen for destroy
+                let destroy = instance.$onDestroy;
+                instance.$onDestroy = function() {
+
+                    // disconnect container
+                    self.$log.info(`Disconnected container ${controller.name}`);
+                    let index = self.containers.indexOf(container);
+                    if(index !== -1) {
+                        self.containers.splice(index, 1);
+                    }
+
+                    // end monkey patch
+                    destroy.apply(this, arguments);
+                };
+
                 return instance;
             }
         }
@@ -62,14 +86,40 @@
         bindActionCreator(actionCreator, dispatch) {
             return (...args) => dispatch(actionCreator(...args));
         }
+
+        bindActionCreators(actionCreators, dispatch) {
+            if (typeof actionCreators === 'function') {
+                return this.bindActionCreator(actionCreators, dispatch)
+            }
+
+            if (typeof actionCreators !== 'object' || actionCreators === null) {
+                throw new Error(
+                    `bindActionCreators expected an object or a function, instead received ${actionCreators === null ? 'null' : typeof actionCreators}. ` +
+                    `Did you write "import ActionCreators from" instead of "import * as ActionCreators from"?`
+                )
+            }
+
+            const keys = Object.keys(actionCreators);
+            const boundActionCreators = {};
+            for (let i = 0; i < keys.length; i++) {
+                const key = keys[i];
+                const actionCreator = actionCreators[key];
+                if (typeof actionCreator === 'function') {
+                    boundActionCreators[key] = this.bindActionCreator(actionCreator, dispatch)
+                } else {
+                    this.$log.warn(`bindActionCreators expected a function actionCreator for key '${key}', instead received type '${typeof actionCreator}'.`);
+                }
+            }
+            return boundActionCreators
+        }
     }
 
-    const provider = function($injector) {
+    const provider = function() {
         this.reducers = [];
         this.setOptions = (options) => {
             this.reducers = options.reducers || this.reducers
         };
-        this.$get = ($injector) => new Store(this.reducers, $injector);
+        this.$get = ($injector, $log) => new Store(this.reducers, $injector, $log);
     };
 
     angular

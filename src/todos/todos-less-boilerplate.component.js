@@ -22,7 +22,7 @@
                         todos: state.todos
                     }
                 },
-                (dispatch) => store.bindActionCreator(todosActionsCreator, dispatch)
+                (dispatch) => store.bindActionCreators(todosActionsCreator, dispatch)
             )(TodosLessBoilerplate);
         }
     };

@@ -12,7 +12,7 @@
                 (state) => {
                     return {}
                 },
-                (dispatch) => store.bindActionCreator(todosActionsCreator, dispatch)
+                (dispatch) => store.bindActionCreators(todosActionsCreator, dispatch)
             )(Settings);
         }
     };

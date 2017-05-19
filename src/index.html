@@ -12,8 +12,9 @@
 <body>
     <div id="app">
         <h1>My awesome redux Angular app!</h1>
-        <a ui-sref="app.todos">Go home</a>
-        <a ui-sref="app.settings">Go settings</a>
+        <a ui-sref="app.todos">Go home (sync)</a>
+        <a ui-sref="app.settings">Go settings (sync)</a>
+        <a ui-sref="app.tweets">Go tweets (async)</a>
         <ui-view></ui-view>
     </div>
 
@@ -21,6 +22,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.js"></script>
     <script src="todos/todos.module.js"></script>
     <script src="settings/settings.module.js"></script>
+    <script src="tweets/tweets.module.js"></script>
     <script src="app.module.js"></script>
     <script src="store.service.js"></script>
     <script src="app.component.js"></script>
@@ -31,6 +33,10 @@
     <script src="todos/todos.component.js"></script>
     <script src="settings/settings.module.js"></script>
     <script src="settings/settings.component.js"></script>
+    <script src="tweets/tweets.component.js"></script>
+    <script src="tweets/tweets.service.js"></script>
+    <script src="tweets/tweets-reducers.config.js"></script>
+    <script src="tweets/tweets-action-creators.service.js"></script>
     <script>
         angular.bootstrap(document.getElementById("app"), ["app"]);
     </script>

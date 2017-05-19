@@ -2,7 +2,7 @@
     class TodosLessBoilerplate {
 
         constructor() {
-            console.log("AppLessBoilerplate", this)
+            console.log("AppLessBoilerplate", this);
             this.data = {
                 todo: "test"
             };

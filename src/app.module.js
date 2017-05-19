@@ -2,6 +2,7 @@
     const config = ($stateProvider, $urlServiceProvider, storeProvider, todosReducers) => {
         $stateProvider.state("app", {
             abstract: true,
+            component: "app"
         });
         // when there is an empty route, redirect to /index
         $urlServiceProvider.rules.otherwise({ state: 'app.todos' });

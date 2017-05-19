@@ -7,12 +7,12 @@
 
     const component = {
         templateUrl: "settings/settings.component.html",
-        controller: (store, appActionsCreator) => {
+        controller: (store, todosActionsCreator) => {
             return store.connect(
                 (state) => {
                     return {}
                 },
-                (dispatch) => store.bindActionCreator(appActionsCreator, dispatch)
+                (dispatch) => store.bindActionCreator(todosActionsCreator, dispatch)
             )(Settings);
         }
     };

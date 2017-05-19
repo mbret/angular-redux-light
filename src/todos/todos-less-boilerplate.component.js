@@ -1,5 +1,5 @@
 (function() {
-    class AppLessBoilerplate {
+    class TodosLessBoilerplate {
 
         constructor() {
             console.log("AppLessBoilerplate", this)
@@ -14,20 +14,20 @@
     }
 
     const component = {
-        templateUrl: "app-less-boilerplate.component.html",
-        controller: (store, appActionsCreator) => {
+        templateUrl: "todos/todos-less-boilerplate.component.html",
+        controller: (store, todosActionsCreator) => {
             return store.connect(
                 (state) => {
                     return {
                         todos: state.todos
                     }
                 },
-                (dispatch) => store.bindActionCreator(appActionsCreator, dispatch)
-            )(AppLessBoilerplate);
+                (dispatch) => store.bindActionCreator(todosActionsCreator, dispatch)
+            )(TodosLessBoilerplate);
         }
     };
 
     angular
         .module("app")
-        .component("appLessBoilerplate", component)
+        .component("todosLessBoilerplate", component)
 })();

@@ -9,30 +9,24 @@ const todos = (state = {}, action) => {
                         text: action.text,
                     }
                 ])
-            })
+            });
         case "REMOVE_TODOS":
             return Object.assign({}, {
                 todos: []
-            })
+            });
         default:
             return state
     }
-}
+};
 
 const todos2 = (state = {}, action) => {
     console.log("reducer todos2", state, action);
     switch (action.type) {
-        // case "ADD_TODO":
-        //     return [
-        //         Object.assign(state, {
-        //             text: action.text,
-        //         })
-        //     ]
         default:
             return state
     }
-}
+};
 
 angular
     .module("app")
-    .constant("appReducers", [todos, todos2]);
+    .constant("todosReducers", [todos, todos2]);

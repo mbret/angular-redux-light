@@ -1,5 +1,5 @@
 (function() {
-    class App {
+    class Todos {
 
         constructor() {
             this.alerts = [];
@@ -24,7 +24,7 @@
         }
     }
 
-    const container = (store, appActionsCreator) => {
+    const container = (store, todosActionsCreator) => {
         return store.connect(
             (state) => {
                 return {
@@ -33,19 +33,19 @@
             },
             (dispatch) => {
                 return {
-                    addTodo: (text) => dispatch(appActionsCreator.addTodo(text)),
-                    removeTodos: () => dispatch(appActionsCreator.removeTodos())
+                    addTodo: (text) => dispatch(todosActionsCreator.addTodo(text)),
+                    removeTodos: () => dispatch(todosActionsCreator.removeTodos())
                 }
             }
-        )(App);
+        )(Todos);
     };
 
     const component = {
-        templateUrl: "app.component.html",
+        templateUrl: "todos/todos.component.html",
         controller: container
     };
 
     angular
         .module("app")
-        .component("app", component)
+        .component("todos", component)
 })();

@@ -1,27 +1,21 @@
-const config = ($stateProvider, $urlServiceProvider, storeProvider, appReducers) => {
-    $stateProvider.state("app", {
-        abstract: true,
-        // url: ""
-    });
-    $stateProvider.state("app.home", {
-        url: "/home",
-        template: `
-            <app></app>
-            <app-less-boilerplate></app-less-boilerplate>
-        `,
-    });
-    // when there is an empty route, redirect to /index
-    $urlServiceProvider.rules.otherwise({ state: 'app.home' });
+(function() {
+    const config = ($stateProvider, $urlServiceProvider, storeProvider, todosReducers) => {
+        $stateProvider.state("app", {
+            abstract: true,
+        });
+        // when there is an empty route, redirect to /index
+        $urlServiceProvider.rules.otherwise({ state: 'app.todos' });
 
-    // create store
-    storeProvider.setOptions({
-        reducers: appReducers
-    });
-};
+        // create store
+        storeProvider.setOptions({
+            reducers: todosReducers
+        });
+    };
 
-angular
-    .module("app", ["ui.router", "app.settings"])
-    .config(config)
-    .run(() => {
-        console.log("run");
-    });
+    angular
+        .module("app", ["ui.router", "app.settings", "app.todos"])
+        .config(config)
+        .run(() => {
+            console.log("run");
+        });
+})();

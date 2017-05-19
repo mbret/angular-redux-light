@@ -1,5 +1,5 @@
 (function() {
-    class AppStateLess {
+    class TodoStateLess {
         constructor() {
             console.log(this);
         }
@@ -24,10 +24,10 @@
             </div>
         </div>
         `,
-        controller: AppStateLess
+        controller: TodoStateLess
     };
 
     angular
         .module("app")
-        .component("appStateLess", component)
+        .component("todosStateLess", component)
 })();

@@ -12,20 +12,22 @@
 <body>
     <div id="app">
         <h1>My awesome redux Angular app!</h1>
-        <a ui-sref="app.home">Go home</a>
+        <a ui-sref="app.todos">Go home</a>
         <a ui-sref="app.settings">Go settings</a>
         <ui-view></ui-view>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.js"></script>
+    <script src="todos/todos.module.js"></script>
+    <script src="settings/settings.module.js"></script>
     <script src="app.module.js"></script>
-    <script src="app.component.js"></script>
-    <script src="app-less-boilerplate.component.js"></script>
-    <script src="app-actions-creator.service.js"></script>
-    <script src="app-reducers.config.js"></script>
     <script src="store.service.js"></script>
-    <script src="app-stateless.component.js"></script>
+    <script src="todos/todos-actions-creator.service.js"></script>
+    <script src="todos/todos-less-boilerplate.component.js"></script>
+    <script src="todos/todos-reducers.config.js"></script>
+    <script src="todos/todos-stateless.component.js"></script>
+    <script src="todos/todos.component.js"></script>
     <script src="settings/settings.module.js"></script>
     <script src="settings/settings.component.js"></script>
     <script>

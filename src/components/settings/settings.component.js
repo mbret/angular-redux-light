@@ -6,13 +6,13 @@
     }
 
     const component = {
-        templateUrl: "settings/settings.component.html",
-        controller: (store, todosActionsCreator) => {
-            return store.connect(
+        templateUrl: "components/settings/settings.component.html",
+        controller: (fluxHelpersConnectService, todosActionsCreator) => {
+            return fluxHelpersConnectService.connect(
                 (state) => {
                     return {}
                 },
-                (dispatch) => store.bindActionCreators(todosActionsCreator, dispatch)
+                (dispatch) => fluxHelpersConnectService.bindActionCreators(todosActionsCreator, dispatch)
             )(Settings);
         }
     };

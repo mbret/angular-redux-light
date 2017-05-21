@@ -1,4 +1,5 @@
 (function() {
+
     class App {
         constructor() {
 
@@ -6,7 +7,7 @@
     }
 
     const component = {
-        templateUrl: "app.component.html",
+        template: `<ui-view></ui-view>`,
         controller: App
     };
 

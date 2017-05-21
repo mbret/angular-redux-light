@@ -6,9 +6,13 @@
   "dependencies": {
     "http-server": "^0.10.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-inject": "^4.2.0"
+  },
   "scripts": {
-    "start": "http-server src"
+    "start": "http-server src",
+    "inject": "gulp inject"
   },
   "author": "",
   "license": "ISC"

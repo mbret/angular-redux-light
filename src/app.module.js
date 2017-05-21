@@ -1,24 +1,60 @@
 (function() {
-    const config = ($stateProvider, $urlServiceProvider, storeProvider, todosReducers, tweetsReducers) => {
+
+    /**
+     * In order to make flux works, we have to configure several things.
+     * First we configure the store with fluxStoreServiceProvider.setOptions. we cannot do createStore as it's an angular service. Instead
+     * the service itself will do createStore with the options we passed (reducer, preloadedState, enhancer)
+     *
+     * We need to configure fluxHelpersConnectServiceProvider as well in order to make it works with the current store.
+     */
+    const config = ($stateProvider, $urlServiceProvider, $injector, fluxStoreServiceProvider, todosReducers, tweetsReducers, fluxHelpersConnectServiceProvider, fluxMiddlewaresLogger, fluxMiddlewaresInjector, fluxMiddlewaresThunk) => {
+        // Basic configuration for root route.
         $stateProvider.state("app", {
             abstract: true,
             component: "app"
         });
-        // when there is an empty route, redirect to /index
         $urlServiceProvider.rules.otherwise({ state: 'app.todos' });
 
-        console.log(tweetsReducers);
+        // Configure store creation
+        fluxStoreServiceProvider.setOptions({
+            reducer: fluxStoreServiceProvider.combineReducers({
+                todos: todosReducers,
+                tweets: tweetsReducers
+            }),
+            enhancer: fluxStoreServiceProvider.applyMiddleware(
+                fluxMiddlewaresLogger,
+                fluxMiddlewaresInjector,
+                fluxMiddlewaresThunk,
+            )
+        });
 
-        // create store
-        storeProvider.setOptions({
-            reducers: todosReducers.concat(tweetsReducers)
+        // Configure flux helpers to deal with correct store.
+        fluxHelpersConnectServiceProvider.setOptions({
+            getStore: (fluxStoreService) => fluxStoreService
+        });
+    };
+
+    /**
+     * Main module run.
+     */
+    const run = ($log, fluxStoreService) => {
+        $log.info("App is running!");
+
+        fluxStoreService.subscribe(() => {
+            $log.info("State has been updated!", fluxStoreService.getState());
         });
     };
 
     angular
-        .module("app", ["ui.router", "app.settings", "app.todos", "app.tweets"])
+        .module("app", [
+            "ui.router",
+            "app.settings",
+            "app.todos",
+            "app.tweets",
+            "app.shared.flux",
+            "app.shared.fluxHelpers",
+            "app.shared.fluxMiddlewares"
+        ])
         .config(config)
-        .run(() => {
-            console.log("run");
-        });
+        .run(run);
 })();

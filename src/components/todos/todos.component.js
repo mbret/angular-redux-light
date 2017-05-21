@@ -25,8 +25,8 @@
         }
     }
 
-    const container = (store, todosActionsCreator) => {
-        return store.connect(
+    const container = (fluxHelpersConnectService, todosActionsCreator) => {
+        return fluxHelpersConnectService.connect(
             (state) => {
                 return {
                     todos: state.todos
@@ -42,7 +42,7 @@
     };
 
     const component = {
-        templateUrl: "todos/todos.component.html",
+        templateUrl: "components/todos/todos.component.html",
         controller: container
     };
 

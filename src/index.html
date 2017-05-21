@@ -20,23 +20,31 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.js"></script>
-    <script src="todos/todos.module.js"></script>
-    <script src="settings/settings.module.js"></script>
-    <script src="tweets/tweets.module.js"></script>
+    <!-- inject:js -->
     <script src="app.module.js"></script>
-    <script src="store.service.js"></script>
+    <script src="components/settings/settings.module.js"></script>
+    <script src="components/tweets/tweets.module.js"></script>
+    <script src="components/todos/todos.module.js"></script>
+    <script src="shared/flux/flux.module.js"></script>
+    <script src="shared/flux-helpers/flux-helpers.module.js"></script>
+    <script src="shared/flux-middlewares/flux-middlewares.module.js"></script>
     <script src="app.component.js"></script>
-    <script src="todos/todos-actions-creator.service.js"></script>
-    <script src="todos/todos-less-boilerplate.component.js"></script>
-    <script src="todos/todos-reducers.config.js"></script>
-    <script src="todos/todos-stateless.component.js"></script>
-    <script src="todos/todos.component.js"></script>
-    <script src="settings/settings.module.js"></script>
-    <script src="settings/settings.component.js"></script>
-    <script src="tweets/tweets.component.js"></script>
-    <script src="tweets/tweets.service.js"></script>
-    <script src="tweets/tweets-reducers.config.js"></script>
-    <script src="tweets/tweets-action-creators.service.js"></script>
+    <script src="components/settings/settings.component.js"></script>
+    <script src="components/tweets/tweets-action-creators.constant.js"></script>
+    <script src="components/tweets/tweets-reducers.constant.js"></script>
+    <script src="components/tweets/tweets.component.js"></script>
+    <script src="components/tweets/tweets.service.js"></script>
+    <script src="components/todos/todos-actions-creator.service.js"></script>
+    <script src="components/todos/todos-reducers.config.js"></script>
+    <script src="components/todos/todos-stateless.component.js"></script>
+    <script src="components/todos/todos-with-flux-helpers.component.js"></script>
+    <script src="components/todos/todos.component.js"></script>
+    <script src="shared/flux/flux-store.service.js"></script>
+    <script src="shared/flux-helpers/flux-helpers-connect.service.js"></script>
+    <script src="shared/flux-middlewares/flux-middlewares-logging.constant.js"></script>
+    <script src="shared/flux-middlewares/flux-middlewares-thunk.constant.js"></script>
+    <script src="shared/flux-middlewares/flux-middlewares-injector.constant.js"></script>
+    <!-- endinject -->
     <script>
         angular.bootstrap(document.getElementById("app"), ["app"]);
     </script>

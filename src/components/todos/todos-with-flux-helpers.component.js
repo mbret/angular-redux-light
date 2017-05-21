@@ -14,15 +14,15 @@
     }
 
     const component = {
-        templateUrl: "todos/todos-less-boilerplate.component.html",
-        controller: (store, todosActionsCreator) => {
-            return store.connect(
+        templateUrl: "components/todos/todos-with-flux-helpers.component.html",
+        controller: (fluxHelpersConnectService, todosActionsCreator) => {
+            return fluxHelpersConnectService.connect(
                 (state) => {
                     return {
                         todos: state.todos
                     }
                 },
-                (dispatch) => store.bindActionCreators(todosActionsCreator, dispatch)
+                (dispatch) => fluxHelpersConnectService.bindActionCreators(todosActionsCreator, dispatch)
             )(TodosLessBoilerplate);
         }
     };

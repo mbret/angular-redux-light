@@ -1,15 +1,11 @@
 (function() {
 
-    const defaultState = {
-        tweets: []
-    };
+    const defaultState = [];
 
     const tweets = (state = defaultState, action) => {
         switch (action.type) {
             case "TWEETS_RECEIVED":
-                return Object.assign({}, state, {
-                    tweets: action.tweets
-                });
+                return action.tweets;
             default:
                 return state
         }
@@ -17,5 +13,5 @@
 
     angular
         .module("app.tweets")
-        .constant("tweetsReducers", [tweets]);
+        .constant("tweetsReducers", tweets);
 })();

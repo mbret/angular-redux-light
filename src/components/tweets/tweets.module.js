@@ -1,6 +1,6 @@
 (function() {
 
-    const config = ($stateProvider, fluxHelpersConnectServiceProvider) => {
+    const config = ($stateProvider, fluxHelperConnectServiceProvider) => {
         $stateProvider.state("app.tweets", {
             url: "/tweets",
             template: `<tweets></tweets>`,
@@ -9,7 +9,7 @@
 
     angular
         .module("app.tweets", [
-            "app.shared.fluxHelpers"
+            "app.shared.fluxHelper"
         ])
         .config(config)
 })();

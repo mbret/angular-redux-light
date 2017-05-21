@@ -6,7 +6,7 @@
         }
     };
 
-    const fetchTweets = ($injector) => (tweetsService) => {
+    const fetchTweets = () => (tweetsService) => {
         return (dispatch, getState) => {
             return tweetsService.fetchTweets()
                 .then((tweets) => {

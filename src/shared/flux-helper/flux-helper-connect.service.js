@@ -1,6 +1,6 @@
 (function() {
 
-    class FluxHelpersConnect {
+    class FluxHelperConnect {
 
         constructor(options, $injector, $log) {
             this.$injector = $injector;
@@ -118,10 +118,10 @@
         this.setOptions = (opt) => {
             options = opt;
         }
-        this.$get = ($injector, $log) => new FluxHelpersConnect(options, $injector, $log);
+        this.$get = ($injector, $log) => new FluxHelperConnect(options, $injector, $log);
     };
 
     angular
-        .module("app.shared.fluxHelpers")
-        .provider("fluxHelpersConnectService", provider);
+        .module("app.shared.fluxHelper")
+        .provider("fluxHelperConnectService", provider);
 })();

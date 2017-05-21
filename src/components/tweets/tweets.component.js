@@ -14,14 +14,14 @@
 
     const component = {
         templateUrl: "components/tweets/tweets.component.html",
-        controller: (fluxHelpersConnectService, tweetsActionCreators) => {
-            return fluxHelpersConnectService.connect(
+        controller: (fluxHelperConnectService, tweetsActionCreators) => {
+            return fluxHelperConnectService.connect(
                 ({tweets}) => {
                     return {
                         tweets
                     };
                 },
-                (dispatch) => fluxHelpersConnectService.bindActionCreators(tweetsActionCreators, dispatch)
+                (dispatch) => fluxHelperConnectService.bindActionCreators(tweetsActionCreators, dispatch)
             )(Tweets);
         }
     };

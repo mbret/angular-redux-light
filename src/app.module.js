@@ -5,9 +5,10 @@
      * First we configure the store with fluxStoreServiceProvider.setOptions. we cannot do createStore as it's an angular service. Instead
      * the service itself will do createStore with the options we passed (reducer, preloadedState, enhancer)
      *
-     * We need to configure fluxHelpersConnectServiceProvider as well in order to make it works with the current store.
+     * We need to configure fluxHelperConnectServiceProvider as well in order to make it works with the current store.
      */
-    const config = ($stateProvider, $urlServiceProvider, $injector, fluxStoreServiceProvider, todosReducers, tweetsReducers, fluxHelpersConnectServiceProvider, fluxMiddlewaresLogger, fluxMiddlewaresInjector, fluxMiddlewaresThunk) => {
+    const config = ($stateProvider, $urlServiceProvider, $injector, fluxStoreServiceProvider, todosReducers, tweetsReducers,
+                    fluxHelperConnectServiceProvider, fluxMiddlewaresLogger, fluxMiddlewaresInjector, fluxMiddlewaresThunk, fluxHelperServiceProvider) => {
         // Basic configuration for root route.
         $stateProvider.state("app", {
             abstract: true,
@@ -17,11 +18,11 @@
 
         // Configure store creation
         fluxStoreServiceProvider.setOptions({
-            reducer: fluxStoreServiceProvider.combineReducers({
+            reducer: fluxHelperServiceProvider.combineReducers({
                 todos: todosReducers,
                 tweets: tweetsReducers
             }),
-            enhancer: fluxStoreServiceProvider.applyMiddleware(
+            enhancer: fluxHelperServiceProvider.applyMiddleware(
                 fluxMiddlewaresLogger,
                 fluxMiddlewaresInjector,
                 fluxMiddlewaresThunk,
@@ -29,7 +30,7 @@
         });
 
         // Configure flux helpers to deal with correct store.
-        fluxHelpersConnectServiceProvider.setOptions({
+        fluxHelperConnectServiceProvider.setOptions({
             getStore: (fluxStoreService) => fluxStoreService
         });
     };
@@ -52,7 +53,7 @@
             "app.todos",
             "app.tweets",
             "app.shared.flux",
-            "app.shared.fluxHelpers",
+            "app.shared.fluxHelper",
             "app.shared.fluxMiddlewares"
         ])
         .config(config)

@@ -7,12 +7,12 @@
 
     const component = {
         templateUrl: "components/settings/settings.component.html",
-        controller: (fluxHelpersConnectService, todosActionsCreator) => {
-            return fluxHelpersConnectService.connect(
+        controller: (fluxHelperConnectService, todosActionsCreator) => {
+            return fluxHelperConnectService.connect(
                 (state) => {
                     return {}
                 },
-                (dispatch) => fluxHelpersConnectService.bindActionCreators(todosActionsCreator, dispatch)
+                (dispatch) => fluxHelperConnectService.bindActionCreators(todosActionsCreator, dispatch)
             )(Settings);
         }
     };

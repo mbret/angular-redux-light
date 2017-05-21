@@ -1,5 +1,9 @@
 (function() {
-    const defaultState = [];
+    const defaultState = [
+        {
+            text: "This is the first and automatic created todo!"
+        }
+    ];
 
     const todos = (state = defaultState, action) => {
         switch (action.type) {
@@ -10,9 +14,7 @@
                     }
                 ]);
             case "REMOVE_TODOS":
-                return Object.assign({}, {
-                    todos: []
-                });
+                return [];
             default:
                 return state
         }

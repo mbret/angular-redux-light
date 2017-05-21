@@ -8,18 +8,16 @@
     <hr>
     <form>
         <input type="text" value="" ng-model="$ctrl.data.todo"/>
-        <button ng-click="$ctrl.onNewTodo()">Add todo</button>
+        <button ng-click="$ctrl.addTodo()">Add todo</button>
+        <button ng-click="$ctrl.addAsyncTodo()">Add todo (async)</button>
         <button ng-click="$ctrl.removeTodos()">Remove all todos</button>
     </form>
     <hr>
-
-    todo:{{todos}}
     <div class="card" ng-repeat="todo in $ctrl.todos">
         <div class="card-block">
-            This is some text within a card block.
+           {{ todo.text }}
         </div>
     </div>
-
     <div style="padding: 20px">
         <todos-state-less todos="$ctrl.todos"></todos-state-less>
     </div>

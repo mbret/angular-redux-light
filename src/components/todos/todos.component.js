@@ -1,23 +1,63 @@
 (function() {
+
+    /**
+     * This component let you handle todo list.
+     * It does not use helpers and show you how to use store, action creators directly.
+     */
     class Todos {
 
-        constructor() {
-            this.alerts = [];
-            this.data = {
-                todo: "test"
-            };
+        constructor(fluxStoreService, todosActionsCreator) {
+            this.todosActionsCreator = todosActionsCreator;
+            this.fluxStoreService = fluxStoreService;
+            this.unsubcribeStore = null;
         }
 
-        $onStateChanges(state) {
-            console.log("Todos: $onStateChanges", state);
-            this.alerts.push({
-                date: new Date(),
-                text: "state has been updated"
+        /**
+         * We just use our component in the classic way and use the store to initialize
+         * the component props.
+         * To keep our scope synchronized we have to subscribe to the store.
+         */
+        $onInit() {
+            this.alerts = [];
+            this.data = {
+                todo: "Something to do!"
+            };
+            this.todos = this.fluxStoreService.getState().todos;
+
+            // we synchronize scope with store
+            this.unsubcribeStore = this.fluxStoreService.subscribe(() => {
+                this.todos = this.fluxStoreService.getState().todos
+
+                this.alerts.push({
+                    date: new Date(),
+                    text: "The store has been updated"
+                });
             });
         }
 
-        onNewTodo() {
-            this.addTodo(this.data.todo);
+        /**
+         * We need to explicitly remove store subscription.
+         */
+        $onDestroy() {
+            if (this.unsubcribeStore) {
+                this.unsubcribeStore();
+            }
+        }
+
+        $doCheck(changesObj) {
+            console.log("$doCheck", changesObj);
+        }
+
+        addTodo() {
+            this.fluxStoreService.dispatch(this.todosActionsCreator.addTodo(this.data.todo));
+        }
+
+        addAsyncTodo() {
+            this.fluxStoreService.dispatch(this.todosActionsCreator.addAsyncTodo(this.data.todo));
+        }
+
+        removeTodos() {
+            this.fluxStoreService.dispatch(this.todosActionsCreator.removeTodos(this.data.todo));
         }
 
         removeAlerts() {
@@ -25,25 +65,9 @@
         }
     }
 
-    const container = (fluxHelpersConnectService, todosActionsCreator) => {
-        return fluxHelpersConnectService.connect(
-            (state) => {
-                return {
-                    todos: state.todos
-                }
-            },
-            (dispatch) => {
-                return {
-                    addTodo: (text) => dispatch(todosActionsCreator.addTodo(text)),
-                    removeTodos: () => dispatch(todosActionsCreator.removeTodos())
-                }
-            }
-        )(Todos);
-    };
-
     const component = {
         templateUrl: "components/todos/todos.component.html",
-        controller: container
+        controller: Todos
     };
 
     angular

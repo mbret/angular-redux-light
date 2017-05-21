@@ -48,11 +48,11 @@
             console.log("$doCheck", changesObj);
         }
 
-        addTodo() {
+        onNewTodo() {
             this.fluxStoreService.dispatch(this.todosActionsCreator.addTodo(this.data.todo));
         }
 
-        addAsyncTodo() {
+        onNewAsyncTodo() {
             this.fluxStoreService.dispatch(this.todosActionsCreator.addAsyncTodo(this.data.todo));
         }
 

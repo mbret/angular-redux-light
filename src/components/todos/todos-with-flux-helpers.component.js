@@ -7,14 +7,32 @@
     class TodosLessBoilerplate {
 
         constructor() {
-            console.log("AppLessBoilerplate", this);
+
+        }
+
+        $onInit() {
+            this.alerts = [];
             this.data = {
                 todo: "Something else to do!"
             };
         }
 
+        $onStateChanges() {
+            this.alerts.push({
+                date: new Date(),
+                text: "The store has been updated"
+            });
+        }
+
         onNewTodo() {
+            // We can then use action creators this way.
+            // We could have even use action creators function directly inside ng-click and handle logic
+            // on action creator side.
             this.addTodo(this.data.todo);
+        }
+
+        onNewAsyncTodo() {
+            this.addAsyncTodo(this.data.todo);
         }
     }
 

@@ -1,17 +1,31 @@
 (function() {
-    const tweetsReceived = (tweets) => {
+    const tweetsReceived = (items) => {
         return {
             type: "TWEETS_RECEIVED",
-            tweets
+            items
         }
     };
 
-    const fetchTweets = () => (tweetsService) => {
+    const tweetsFetching = () => {
+        return {
+            type: "TWEETS_FETCHING"
+        }
+    };
+
+    /**
+     * Fetch tweets (once in a time)
+     */
+    const fetchTweets = () => (tweetsService, $q) => {
         return (dispatch, getState) => {
-            return tweetsService.fetchTweets()
-                .then((tweets) => {
-                    dispatch(tweetsReceived(tweets));
-                });
+            if (!getState().tweets.fetching) {
+                dispatch(tweetsFetching());
+                return tweetsService.fetchTweets()
+                    .then((tweets) => {
+                        dispatch(tweetsReceived(tweets));
+                    });
+            }
+
+            return $q.resolve();
         }
     };
 
@@ -19,6 +33,7 @@
         .module("app.tweets")
         .constant("tweetsActionCreators", {
             fetchTweets,
+            tweetsFetching,
             tweetsReceived
         });
 })();

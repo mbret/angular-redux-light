@@ -24,7 +24,7 @@
                             content: "Omg I just discovered an awesome Angular app guys #angular #redux"
                         }
                     ]);
-                }, 2000);
+                }, 3000);
             });
         }
 

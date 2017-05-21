@@ -3,12 +3,18 @@
     class Tweets {
 
         constructor() {
-
+            this.fetching = null;
         }
 
         $onInit() {
             // we do have access to mapped action creators.
             this.fetchTweets();
+        }
+
+        $onDestroy() {
+            if (this.fetching) {
+
+            }
         }
     }
 
@@ -18,7 +24,8 @@
             return fluxHelperConnectService.connect(
                 ({tweets}) => {
                     return {
-                        tweets
+                        tweets: tweets.items,
+                        fetching: tweets.fetching
                     };
                 },
                 (dispatch) => fluxHelperConnectService.bindActionCreators(tweetsActionCreators, dispatch)

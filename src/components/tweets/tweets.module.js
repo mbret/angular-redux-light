@@ -1,15 +1,15 @@
-(function() {
+(function () {
 
-    const config = ($stateProvider, fluxHelperConnectServiceProvider) => {
-        $stateProvider.state("app.tweets", {
-            url: "/tweets",
-            template: `<tweets></tweets>`,
-        });
-    };
+  const config = ($stateProvider, fluxHelperConnectServiceProvider) => {
+    $stateProvider.state('app.tweets', {
+      url: '/tweets',
+      template: `<tweets></tweets>`,
+    })
 
-    angular
-        .module("app.tweets", [
-            "app.shared.flux"
-        ])
-        .config(config)
-})();
+    fluxHelperConnectServiceProvider.setOptions({})
+  }
+
+  angular.module('app.tweets', [
+    'app.shared.flux',
+  ]).config(config)
+})()

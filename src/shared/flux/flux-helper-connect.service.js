@@ -18,7 +18,7 @@
 
             return (controller) => {
 
-                console.log(`New connect for container ${controller.name}`);
+                this.$log.log(`New connect for container ${controller.name}`);
                 let instance = this.$injector.invoke(controller);
 
                 props = Object.assign(props, mapDispatchToProps((action) => {
@@ -72,11 +72,11 @@
 
         //@todo use memoization
         apply() {
-            console.log("Apply new state to all connected containers");
+            this.$log.log("Apply new state to all connected containers");
             this.containers.forEach(container => {
                 let newProps = container.mapStateToProps(this.store.getState());
                 container.instance = Object.assign(container.instance, newProps);
-                console.log("New props has been bound to", container.name, container.instance);
+                this.$log.log("New props has been bound to", container.name, container.instance);
                 container.instance.$onStateChanges(newProps);
             });
         }
@@ -118,7 +118,9 @@
         this.setOptions = (opt) => {
             options = opt;
         }
-        this.$get = ($injector, $log) => new FluxHelperConnect(options, $injector, $log);
+        this.$get = ($injector, $log) => {
+          return new FluxHelperConnect(options, $injector, $log);
+        }
     };
 
     angular

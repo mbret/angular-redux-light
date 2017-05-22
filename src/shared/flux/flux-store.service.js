@@ -17,7 +17,6 @@
 
             if (enhancer) {
                 let enhancerInjected = $injector.invoke(enhancer);
-                console.log(enhancerInjected);
                 return enhancerInjected(createStore, $injector)(reducer, preloadedState)
             }
 
@@ -53,7 +52,6 @@
                     listener();
                 }
 
-                console.log("COUCOU", action);
                 return action
             }
 

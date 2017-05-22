@@ -1,7 +1,6 @@
 (function() {
 
     const addTodo = (text) => {
-        console.log("addTodo");
         return {
             type: "ADD_TODO",
             text

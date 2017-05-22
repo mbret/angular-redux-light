@@ -1,7 +1,7 @@
 (function() {
     class Settings {
-        constructor() {
-            console.log(this);
+        constructor($log) {
+          $log.log(this);
         }
     }
 

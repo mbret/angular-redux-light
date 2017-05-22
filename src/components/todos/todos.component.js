@@ -6,10 +6,11 @@
      */
     class Todos {
 
-        constructor(fluxStoreService, todosActionsCreator) {
+        constructor(fluxStoreService, todosActionsCreator, $log) {
             this.todosActionsCreator = todosActionsCreator;
             this.fluxStoreService = fluxStoreService;
             this.unsubcribeStore = null;
+            this.$log = $log
         }
 
         /**
@@ -45,7 +46,7 @@
         }
 
         $doCheck(changesObj) {
-            console.log("$doCheck", changesObj);
+            this.$log.log("$doCheck", changesObj);
         }
 
         onNewTodo() {

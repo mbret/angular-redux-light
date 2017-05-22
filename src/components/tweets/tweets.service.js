@@ -1,12 +1,9 @@
 (function() {
 
     class TweetsService {
-
         fetchTweets() {
-            console.log("TweetsService, fetching tweets...");
             return new Promise((resolve) => {
                 setTimeout(() => {
-                    console.log("TweetsService, tweets has been fetched!");
                     resolve([
                         {
                             author: "Maxime Bret",

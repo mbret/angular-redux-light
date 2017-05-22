@@ -4,6 +4,15 @@
 If you don't mind about mixin different patterns it can give you a lot of power (as long as you know 
 what you are doing).
 
+# Get started
+This is an example to show you how to use it and expose what you can do. The real library is inside [https://github.com/mbret/angular-redux-light/tree/master/src/shared](https://github.com/mbret/angular-redux-light/tree/master/src/shared). 
+I'm planning to make a package but for now you can integrate the code directly instead of having another dependency. It's comprehensible and light. 
+
+To run/test the project
+- `npm install`
+- `npm run start`
+- Visite http://localhost:8080
+
 # Limits
 Angular is not built like React and do not provide good component rendering optimization. When using a state
 you will connect your container to it and everytime the state is changed your container will have new

@@ -16,7 +16,9 @@
         const createStore = (reducer, preloadedState, enhancer) => {
 
             if (enhancer) {
-                return enhancer(createStore, $injector)(reducer, preloadedState)
+                let enhancerInjected = $injector.invoke(enhancer);
+                console.log(enhancerInjected);
+                return enhancerInjected(createStore, $injector)(reducer, preloadedState)
             }
 
             let currentState = preloadedState

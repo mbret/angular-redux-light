@@ -8,7 +8,7 @@
      * We need to configure fluxHelperConnectServiceProvider as well in order to make it works with the current store.
      */
     const config = ($stateProvider, $urlServiceProvider, $injector, fluxStoreServiceProvider, todosReducers, tweetsReducers,
-                    fluxHelperConnectServiceProvider, fluxMiddlewaresLogger, fluxMiddlewaresInjector, fluxMiddlewaresThunk, fluxHelperServiceProvider) => {
+                    fluxHelperConnectServiceProvider, fluxHelperServiceProvider) => {
         // Basic configuration for root route.
         $stateProvider.state("app", {
             abstract: true,
@@ -22,11 +22,14 @@
                 todos: todosReducers,
                 tweets: tweetsReducers
             }),
-            enhancer: fluxHelperServiceProvider.applyMiddleware(
-                fluxMiddlewaresLogger,
-                fluxMiddlewaresInjector,
-                fluxMiddlewaresThunk,
-            )
+            enhancer: (fluxHelperService, fluxMiddlewaresLogger, fluxMiddlewaresThunk, fluxMiddlewaresDigest) => {
+                "ngInject";
+                return fluxHelperService.applyMiddleware(
+                    fluxMiddlewaresLogger,
+                    fluxMiddlewaresThunk,
+                    fluxMiddlewaresDigest,
+                )
+            }
         });
 
         // Configure flux helpers to deal with correct store.

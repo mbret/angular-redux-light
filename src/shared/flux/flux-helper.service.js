@@ -115,6 +115,6 @@
     };
 
     angular
-        .module('app.shared.fluxHelper')
+        .module('app.shared.flux')
         .provider('fluxHelperService', provider)
 })();

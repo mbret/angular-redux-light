@@ -56,7 +56,6 @@
             "app.todos",
             "app.tweets",
             "app.shared.flux",
-            "app.shared.fluxHelper",
             "app.shared.fluxMiddlewares"
         ])
         .config(config)

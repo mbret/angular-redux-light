@@ -9,7 +9,7 @@
 
     angular
         .module("app.tweets", [
-            "app.shared.fluxHelper"
+            "app.shared.flux"
         ])
         .config(config)
 })();

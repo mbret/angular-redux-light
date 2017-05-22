@@ -1,7 +1,8 @@
 # Why?
-- Why flux ? 
+- Because of all benefit of flux and redux implementation of course. [https://facebook.github.io/flux/docs/in-depth-overview.html](https://facebook.github.io/flux/docs/in-depth-overview.html).
+There are plenty of article that explain why redux is helpful when developing front end app.
 - It offers a very light implementation and still let you use or not the store with your component.
-If you don't mind about mixin different patterns it can give you a lot of power (as long as you know 
+If you don't mind about mixin different patterns (flux, mvc) it can give you a lot of power (as long as you know 
 what you are doing).
 
 # Get started
@@ -11,7 +12,7 @@ I'm planning to make a package but for now you can integrate the code directly i
 To run/test the project
 - `npm install`
 - `npm run start`
-- Visite http://localhost:8080
+- Visit http://localhost:8080
 
 # Limits
 Angular is not built like React and do not provide good component rendering optimization. When using a state

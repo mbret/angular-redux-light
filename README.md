@@ -14,3 +14,8 @@ time.
 
 You have to keep in mind that and maybe in rare case not connect your component to store or do some homemade 
 optimizations.
+
+# Note about performance
+Despite the fact that all store update should trigger every changes since immutable change the reference, it does
+reduce the complexity of all $watch to O(1). There is indeed no more deep checking (only the reference). 
+If you are going to use only the store in flavor of angular $scope old fashioned way you may have better performances.

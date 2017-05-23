@@ -20,6 +20,7 @@
     // Configure store creation
     fluxStoreServiceProvider.setOptions({
       reducer: (appCoreReducers) => {
+        'ngInject'
         return fluxHelperServiceProvider.reduceReducers(
           appCoreReducers,
           fluxHelperServiceProvider.combineReducers({

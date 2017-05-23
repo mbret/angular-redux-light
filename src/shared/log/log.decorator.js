@@ -21,6 +21,6 @@
     $provide.decorator('$log', decorator)
   }
 
-  angular.module('app')
+  angular.module('app.shared.log')
     .config(config)
 })()

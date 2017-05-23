@@ -1,9 +1,5 @@
 (function () {
 
-  const APP_CONFIG = Object.assign({}, {
-    logLvl: 'log'
-  })
-
   /**
    * In order to make flux works, we have to configure several things.
    * First we configure the store with fluxStoreServiceProvider.setOptions. we cannot do createStore as it's an angular service. Instead
@@ -60,10 +56,11 @@
       'app.settings',
       'app.todos',
       'app.tweets',
+      'app.shared.config',
       'app.shared.flux',
       'app.shared.fluxMiddlewares',
+      'app.shared.log',
     ])
-    .constant('APP_CONFIG', APP_CONFIG)
     .config(config)
     .run(run)
 })()

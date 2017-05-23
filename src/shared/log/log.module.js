@@ -1,5 +1,6 @@
 (function() {
-  angular.module('app.shared.log', [
-    'app.core'
-  ])
+  angular
+    .module('app.shared.log', [
+      'app.core'
+    ])
 })()

@@ -1,5 +1,11 @@
 (function () {
 
+  const reducerReducers = (...reducers) => {
+    return (previous, current) => {
+      return reducers.reduce((p, r) => r(p, current), previous)
+    }
+  }
+
   /**
    * Composes single-argument functions from right to left. The rightmost
    * function can take multiple arguments as it provides the signature for
@@ -24,6 +30,7 @@
 
     constructor () {
       this.compose = compose
+      this.reduceReducers = reducerReducers
     }
 
     /**
@@ -111,11 +118,7 @@
       }
     }
 
-    this.reduceReducers = (...reducers) => {
-      return (previous, current) => {
-        return reducers.reduce((p, r) => r(p, current), previous)
-      }
-    }
+    this.reduceReducers = reducerReducers
 
     this.$get = () => new FluxHelpers()
   }

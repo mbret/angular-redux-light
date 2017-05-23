@@ -8,7 +8,7 @@
    * We need to configure fluxHelperConnectServiceProvider as well in order to make it works with the current store.
    */
   const config = ($stateProvider, $urlServiceProvider, $injector, fluxStoreServiceProvider, todosReducers, tweetsReducers,
-                  fluxHelperConnectServiceProvider, fluxHelperServiceProvider, $logProvider, coreRestoreReducer) => {
+                  fluxHelperConnectServiceProvider, fluxHelperServiceProvider, $logProvider) => {
     // Basic configuration for root route.
     $stateProvider.state('app', {
       abstract: true,
@@ -19,13 +19,15 @@
 
     // Configure store creation
     fluxStoreServiceProvider.setOptions({
-      reducer: fluxHelperServiceProvider.reduceReducers(
-        coreRestoreReducer,
-        fluxHelperServiceProvider.combineReducers({
-          todos: todosReducers,
-          tweets: tweetsReducers
-        })
-      ),
+      reducer: (appCoreReducers) => {
+        return fluxHelperServiceProvider.reduceReducers(
+          appCoreReducers,
+          fluxHelperServiceProvider.combineReducers({
+            todos: todosReducers,
+            tweets: tweetsReducers
+          })
+        )
+      },
       enhancer: (fluxHelperService, fluxMiddlewaresLogger, fluxMiddlewaresThunk, fluxMiddlewaresDigest) => {
         'ngInject'
         return fluxHelperService.applyMiddleware(
@@ -45,9 +47,8 @@
   /**
    * Main module run.
    */
-  const run = ($log, fluxStoreService) => {
+  const run = ($log) => {
     $log.log('App is running!', 'sdf')
-    // setTimeout(() => { fluxStoreService.dispatch(appCoreRestoreActionCreators.restore({ tweets: 1, todos: 2 })) }, 5000)
   }
 
   angular

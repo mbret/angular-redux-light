@@ -1,5 +1,5 @@
 (function() {
 
     angular
-        .module("app.shared.flux", []);
+        .module("app.shared.flux", [])
 })();

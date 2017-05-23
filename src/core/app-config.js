@@ -5,6 +5,6 @@
   })
 
   angular
-    .module('app.shared.config', [])
+    .module('app.core')
     .constant('APP_CONFIG', APP_CONFIG)
 })()

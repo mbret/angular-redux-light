@@ -14,6 +14,7 @@
 
         connect(mapStateToProps = () => {}, mapDispatchToProps = () => {}) {
             let self = this;
+            console.log(this.store.getState())
             let props = mapStateToProps(this.store.getState()) || {};
 
             return (controller) => {

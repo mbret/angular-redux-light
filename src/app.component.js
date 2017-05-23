@@ -8,6 +8,16 @@
 
   const component = {
     template: `
+        <nav class="navbar navbar-inverse bg-primary">
+          <ul class="navbar-nav mr-auto flex-column flex-sm-row">
+            <li class="nav-item p-1">
+              <button type="button" class="btn btn-success" ng-click="$ctrl.persist()">Persist state</span></button>
+            </li>
+            <li class="nav-item p-1">
+              <button type="button" class="btn btn-success" ng-click="$ctrl.restore()">Restore state</button>
+            </li>
+          </ul>
+        </nav>
         <div>
             <h1>My awesome redux Angular app!</h1>
             <a ui-sref="app.todos">Go home (sync)</a>
@@ -16,7 +26,12 @@
             <ui-view></ui-view>
         </div>
     `,
-    controller: App,
+    controller: (fluxHelperConnectService, appCoreRestoreActionCreators) => {
+      return fluxHelperConnectService.connect(
+        ({tweets}) => {},
+        (dispatch) => fluxHelperConnectService.bindActionCreators(appCoreRestoreActionCreators, dispatch)
+      )(App);
+    }
   }
 
   angular

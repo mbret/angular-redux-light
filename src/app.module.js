@@ -8,7 +8,7 @@
    * We need to configure fluxHelperConnectServiceProvider as well in order to make it works with the current store.
    */
   const config = ($stateProvider, $urlServiceProvider, $injector, fluxStoreServiceProvider, todosReducers, tweetsReducers,
-                  fluxHelperConnectServiceProvider, fluxHelperServiceProvider, $logProvider) => {
+                  fluxHelperConnectServiceProvider, fluxHelperServiceProvider, $logProvider, coreRestoreReducer) => {
     // Basic configuration for root route.
     $stateProvider.state('app', {
       abstract: true,
@@ -19,10 +19,13 @@
 
     // Configure store creation
     fluxStoreServiceProvider.setOptions({
-      reducer: fluxHelperServiceProvider.combineReducers({
-        todos: todosReducers,
-        tweets: tweetsReducers,
-      }),
+      reducer: fluxHelperServiceProvider.reduceReducers(
+        coreRestoreReducer,
+        fluxHelperServiceProvider.combineReducers({
+          todos: todosReducers,
+          tweets: tweetsReducers
+        })
+      ),
       enhancer: (fluxHelperService, fluxMiddlewaresLogger, fluxMiddlewaresThunk, fluxMiddlewaresDigest) => {
         'ngInject'
         return fluxHelperService.applyMiddleware(
@@ -44,19 +47,16 @@
    */
   const run = ($log, fluxStoreService) => {
     $log.log('App is running!', 'sdf')
-
-    fluxStoreService.subscribe(() => {
-      $log.info('State has been updated!', fluxStoreService.getState())
-    })
+    // setTimeout(() => { fluxStoreService.dispatch(appCoreRestoreActionCreators.restore({ tweets: 1, todos: 2 })) }, 5000)
   }
 
   angular
     .module('app', [
       'ui.router',
+      'app.core',
       'app.settings',
       'app.todos',
       'app.tweets',
-      'app.shared.config',
       'app.shared.flux',
       'app.shared.fluxMiddlewares',
       'app.shared.log',

@@ -6,6 +6,7 @@
     };
 
     const tweets = (state = defaultState, action) => {
+        console.log("tweets", state, action)
         switch (action.type) {
             case "TWEETS_RECEIVED":
                 return Object.assign({}, state, {

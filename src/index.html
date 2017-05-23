@@ -10,11 +10,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div id="app">
-        <h1>My awesome redux Angular app!</h1>
-        <a ui-sref="app.todos">Go home (sync)</a>
-        <a ui-sref="app.settings">Go settings (sync)</a>
-        <a ui-sref="app.tweets">Go tweets (async)</a>
+    <div id="app" ng-app="app">
         <ui-view></ui-view>
     </div>
 
@@ -48,8 +44,5 @@
     <script src="shared/flux-middlewares/flux-middlewares-digest.service.js"></script>
     <script src="shared/flux-middlewares/flux-middlewares-thunk.service.js"></script>
     <!-- endinject -->
-    <script>
-        angular.bootstrap(document.getElementById("app"), ["app"]);
-    </script>
 </body>
 </html>

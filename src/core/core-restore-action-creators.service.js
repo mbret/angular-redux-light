@@ -2,16 +2,25 @@
 
   /**
    * Simple action creators that handle restore/persist of the store
+   * @todo add provider to configure get/set storage.
+   * @todo add custom function with callback support to implement specific logic
+   * @todo during restoring dispatch.
    */
   const factory = (fluxStoreService) => {
     const restore = () => {
-      let state = window.localStorage.getItem('store.persist')
-      if (state) {
-        state = JSON.parse(state)
-      }
-      return {
-        type: '@flux/restore',
-        state,
+      return (dispatch) => {
+        let state = window.localStorage.getItem('store.persist')
+        if (state) {
+          state = JSON.parse(state)
+        }
+        dispatch({
+          type: '@flux/RESTORE_START',
+          state,
+        })
+        dispatch({
+          type: '@flux/RESTORE_END',
+          state,
+        })
       }
     }
 

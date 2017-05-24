@@ -5,14 +5,14 @@
 
     const tweetsReceived = (items) => {
       return {
-        type: 'TWEETS_RECEIVED',
+        type: '@app/TWEETS_RECEIVED',
         items,
       }
     }
 
     const tweetsFetching = () => {
       return {
-        type: 'TWEETS_FETCHING',
+        type: '@app/TWEETS_FETCHING',
       }
     }
 
@@ -21,9 +21,10 @@
      */
     const fetchTweets = () => {
       return (dispatch, getState) => {
-        if (!getState().tweets.fetching) {
+        if (getState().tweets.state !== 'fetching') {
           dispatch(tweetsFetching())
-          return tweetsService.fetchTweets()
+          return tweetsService
+            .fetchTweets()
             .then((tweets) => {
               dispatch(tweetsReceived(tweets))
             })

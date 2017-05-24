@@ -26,6 +26,13 @@ when needed
 - (extra) Thunk middleware
 - (extra) Digest middleware to handle angular digest cycle and UI refresh
 
+## Restore / Persist
+Restore feature have some limits. Restoring the state will put back the store at the exact point as it was but there
+are some stuff that still need to performs (ex: redirect your application to the route (defined in the store), trigger the constructor 
+of your component. When using a preloaded state all your application bootstrapping logic (module, config, etc) will run as well.
+It's not really possible to restore an entire application like a snapshot. However it's not a big deal and you may still
+handle the restore action to enhance your restoration process.
+
 ## Some points about Angular
 I wanted to make a classic web Angular project to fit all the cases (no web-packer for example) so there are
 no es6 export and all files are supposed to be injected on html file.

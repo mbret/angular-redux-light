@@ -1,28 +1,29 @@
-(function() {
+(function () {
 
-    const defaultState = {
-        items: [],
-        fetching: false
-    };
+  const defaultState = {
+    items: [],
+    // fetching = already fetching (we d'ont need to fetch again)
+    // null = we can fetch as soon as we can
+    state: null
+  }
 
-    const tweets = (state = defaultState, action) => {
-        console.log("tweets", state, action)
-        switch (action.type) {
-            case "TWEETS_RECEIVED":
-                return Object.assign({}, state, {
-                    items: action.items,
-                    fetching: false
-                });
-            case "TWEETS_FETCHING":
-                return Object.assign({}, state, {
-                    fetching: true
-                })
-            default:
-                return state
-        }
-    };
+  const tweets = (state = defaultState, action) => {
+    switch (action.type) {
+      case '@app/TWEETS_RECEIVED':
+        return Object.assign({}, state, {
+          items: action.items,
+          state: null
+        })
+      case '@app/TWEETS_FETCHING':
+        return Object.assign({}, state, {
+          state: 'fetching'
+        })
+      default:
+        return state
+    }
+  }
 
-    angular
-        .module("app.tweets")
-        .constant("tweetsReducers", tweets);
-})();
+  angular
+    .module('app.tweets')
+    .constant('tweetsReducers', tweets)
+})()

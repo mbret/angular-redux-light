@@ -4,6 +4,7 @@ There are plenty of article that explain why redux is helpful when developing fr
 - It offers a very light implementation and still let you use or not the store with your component.
 If you don't mind about mixin different patterns (flux, mvc) it can give you a lot of power (as long as you know 
 what you are doing).
+- It encourages you to use as much ono-way binding as possible and that's a good thing to be confortable with as new architecture and framework are going in this direction.
 
 # Features
 ## App

@@ -6,7 +6,7 @@
 
     onSubmitFormA (form) {
       this.onSubmitForm({
-        name: this.state.settings.name
+        name: this.name
       })
     }
 
@@ -26,7 +26,7 @@
         (state) => {
           return {
             // we need to shallow copy settings data because angular two way binding will update the scope.
-            state: state
+            name: state.settings.name
           }
         },
         (dispatch) => fluxHelperConnectService.bindActionCreators(settingsActionCreators, dispatch)

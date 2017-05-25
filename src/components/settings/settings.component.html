@@ -1,4 +1,21 @@
 <div>
     <h2>Settings</h2>
-    <button ng-click="$ctrl.removeTodos()">Remove all todos</button>
+    <div class="jumbotron">
+        <h2>Normal form</h2>
+        <form ng-submit="$ctrl.onSubmitFormA(formA)" name="formA">
+            <div class="form-group row">
+                <label for="yo" class="col-2 col-form-label">Name</label>
+                <div class="col-10">
+                    <input class="form-control" type="text" id="yo" ng-model="$ctrl.state.settings.name" ng-change="$ctrl.test()">
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="offset-sm-2 col-sm-10">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
 </div>

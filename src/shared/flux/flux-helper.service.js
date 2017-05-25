@@ -43,8 +43,8 @@
    * @returns {Function} A store enhancer applying the middleware.
    */
   const applyMiddleware = (...middlewares) => {
-    return (createStore, $injector) => (reducer, preloadedState) => {
-      const store = createStore(reducer, preloadedState)
+    return (createStore, $injector) => (reducer, preloadedState, enhancer) => {
+      const store = createStore(reducer, preloadedState, enhancer)
       let dispatch = store.dispatch
       const middlewareAPI = {
         getState: store.getState,

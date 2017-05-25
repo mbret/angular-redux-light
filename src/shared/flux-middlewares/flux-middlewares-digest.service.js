@@ -3,8 +3,8 @@
     const logger = ($rootScope) => {
         "ngInject";
         return (store) => (next) => action => {
-            // it ensure that any code is performed to a digest cycle.
-            // Be careful as it will mostly run twice all digest cycle.
+            // it ensure that any code will be handled by a digest cycle.
+            // the digest cycle is queue
             $rootScope.$evalAsync(next(action));
         }
     }

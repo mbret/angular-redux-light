@@ -1,23 +1,40 @@
-(function() {
-    class Settings {
-        constructor($log) {
-          $log.log(this);
-        }
+(function () {
+  class Settings {
+    constructor ($log, $timeout) {
+      $log.log(this)
     }
 
-    const component = {
-        templateUrl: "components/settings/settings.component.html",
-        controller: (fluxHelperConnectService, todosActionsCreator) => {
-            return fluxHelperConnectService.connect(
-                (state) => {
-                    return {}
-                },
-                (dispatch) => fluxHelperConnectService.bindActionCreators(todosActionsCreator, dispatch)
-            )(Settings);
-        }
-    };
+    onSubmitFormA (form) {
+      this.onSubmitForm({
+        name: this.state.settings.name
+      })
+    }
 
-    angular
-        .module("app")
-        .component("settings", component)
-})();
+    test () {
+      console.log('changed')
+    }
+
+    $doCheck () {
+      console.log('$doCheck')
+    }
+  }
+
+  const component = {
+    templateUrl: 'components/settings/settings.component.html',
+    controller: (fluxHelperConnectService, settingsActionCreators) => {
+      return fluxHelperConnectService.connect(
+        (state) => {
+          return {
+            // we need to shallow copy settings data because angular two way binding will update the scope.
+            state: state
+          }
+        },
+        (dispatch) => fluxHelperConnectService.bindActionCreators(settingsActionCreators, dispatch)
+      )(Settings)
+    }
+  }
+
+  angular
+    .module('app')
+    .component('settings', component)
+})()

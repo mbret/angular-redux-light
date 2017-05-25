@@ -8,7 +8,7 @@
    * We need to configure fluxHelperConnectServiceProvider as well in order to make it works with the current store.
    */
   const config = ($stateProvider, $urlServiceProvider, $injector, fluxStoreServiceProvider, todosReducers, tweetsReducers,
-                  fluxHelperConnectServiceProvider, fluxHelperServiceProvider, $logProvider) => {
+                  settingsReducer, fluxHelperConnectServiceProvider, fluxHelperServiceProvider, $logProvider) => {
     // Basic configuration for root route.
     $stateProvider.state('app', {
       abstract: true,
@@ -25,16 +25,20 @@
           appCoreReducers,
           fluxHelperServiceProvider.combineReducers({
             todos: todosReducers,
-            tweets: tweetsReducers
+            tweets: tweetsReducers,
+            settings: settingsReducer
           })
         )
       },
-      enhancer: (fluxHelperService, fluxMiddlewaresLogger, fluxMiddlewaresThunk, fluxMiddlewaresDigest) => {
+      enhancer: (fluxHelperService, fluxMiddlewaresLogger, fluxMiddlewaresThunk, fluxMiddlewaresDigest, fluxMiddlewaresDebug, fluxDebugService) => {
         'ngInject'
-        return fluxHelperService.applyMiddleware(
-          fluxMiddlewaresLogger,
-          fluxMiddlewaresThunk,
-          fluxMiddlewaresDigest,
+        return fluxHelperService.compose(
+          fluxHelperService.applyMiddleware(
+            fluxMiddlewaresLogger,
+            fluxMiddlewaresThunk,
+            fluxMiddlewaresDigest,
+          ),
+          fluxDebugService.enhance()
         )
       },
     })
@@ -61,6 +65,7 @@
       'app.tweets',
       'app.shared.flux',
       'app.shared.fluxMiddlewares',
+      'app.shared.fluxDebug',
       'app.shared.log',
     ])
     .config(config)

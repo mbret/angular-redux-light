@@ -45,8 +45,8 @@
         isDispatching = true
         currentState = currentReducer(currentState, action)
         isDispatching = false
-
-        const listeners = currentListeners = nextListeners
+        currentListeners = nextListeners
+        const listeners = currentListeners
         for (let i = 0; i < listeners.length; i++) {
           const listener = listeners[i]
           listener()

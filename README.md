@@ -4,6 +4,7 @@ There are plenty of article that explain why redux is helpful when developing fr
 - It offers a very light implementation and still let you use or not the store with your component.
 If you don't mind about mixin different patterns (flux, mvc) it can give you a lot of power (as long as you know 
 what you are doing).
+- It encourages you to use as much ono-way binding as possible and that's a good thing to be confortable with as new architecture and framework are going in this direction.
 
 # Features
 ## App
@@ -25,6 +26,7 @@ when needed
 - (extra) Logging Middleware
 - (extra) Thunk middleware
 - (extra) Digest middleware to handle angular digest cycle and UI refresh
+- (extra) Flux debug tools (watch for accidental store mutation)
 
 ## Restore / Persist
 Restore feature have some limits. Restoring the state will put back the store at the exact point as it was but there
@@ -32,6 +34,9 @@ are some stuff that still need to performs (ex: redirect your application to the
 of your component. When using a preloaded state all your application bootstrapping logic (module, config, etc) will run as well.
 It's not really possible to restore an entire application like a snapshot. However it's not a big deal and you may still
 handle the restore action to enhance your restoration process.
+
+## Flux debug tools
+The flux debug module is build around an enhancer that allow you adding any debug layer to watch and tracks what happens during the store life. It has for now a very usefull tool that use proxies to prevent accidental store mutation. You are not meant to use it in production mode but is very helpful while developing.
 
 ## Some points about Angular
 I wanted to make a classic web Angular project to fit all the cases (no web-packer for example) so there are

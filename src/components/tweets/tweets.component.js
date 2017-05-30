@@ -18,7 +18,8 @@
       return fluxHelperConnectService.connect(
         ({tweets}) => {
           return {
-            tweets: tweets.items,
+            // we need to copy because of ngRepeat
+            tweets: Object.assign({}, tweets.items),
             tweetsState: tweets.state
           }
         },

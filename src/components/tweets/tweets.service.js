@@ -6,13 +6,15 @@
                 setTimeout(() => {
                     resolve([
                         {
+                            id: 0,
                             author: "Maxime Bret",
-                            date: new Date(),
+                            date: new Date().toISOString(),
                             content: "Omg I just discovered an awesome Angular app guys #angular #redux"
                         },
                         {
+                            id: 1,
                             author: "Maxime Bret",
-                            date: new Date(),
+                            date: new Date().toISOString(),
                             content: "Omg I just discovered an awesome Angular app guys #angular #redux"
                         }
                     ]);

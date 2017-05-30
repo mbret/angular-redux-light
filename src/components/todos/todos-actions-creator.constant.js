@@ -20,7 +20,7 @@
     };
 
     angular
-        .module("app")
+        .module("app.todos")
         .constant("todosActionsCreator", {
             addTodo,
             addAsyncTodo,

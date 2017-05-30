@@ -28,6 +28,6 @@
     };
 
     angular
-        .module("app")
+        .module("app.todos")
         .component("todosStateLess", component)
 })();

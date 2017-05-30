@@ -1,18 +1,19 @@
 (function () {
 
   /**
+   * Compare two object or primitive values.
+   * This is not a deep compare.
    *
-   * @param a
-   * @param b
+   * @param {any} a
+   * @param {any} b
    * @returns {boolean}
    */
   const shallowEqual = (a, b) => {
-    console.log(a, b)
     if (a === b) {
       return true
     }
 
-    /* $$hashKey is added by angular when using ng-repeat, we ignore that*/
+    // $$hashKey is added by angular when using ng-repeat, we ignore that
     let keysA = Object.keys(a).filter(k => k !== '$$hashKey')
     let keysB = Object.keys(b).filter(k => k !== '$$hashKey')
 
@@ -30,34 +31,38 @@
     return true
   }
 
+  /**
+   * FluxHelperConnect is a persistent service that deal with connection between components
+   * and store. It offer several helpers to avoid boilerplate within your components.
+   */
   class FluxHelperConnect {
 
-    constructor (options, $injector, $log) {
+    constructor (options, $injector, $log, fluxStoreService) {
+      this.options = options
       this.$injector = $injector
       this.$log = $log
       this.containers = []
-      this.store = $injector.invoke(options.getStore)
+      this.store = fluxStoreService
       this.store.subscribe(() => {
         this.apply()
       })
     }
 
+    /**
+     *
+     * @param mapStateToProps
+     * @param mapDispatchToProps
+     * @returns {function(*=)}
+     */
     connect (mapStateToProps = () => {}, mapDispatchToProps = () => {}) {
-      let self = this
-      console.log(this.store.getState())
       let props = mapStateToProps(this.store.getState()) || {}
-
       return (controller) => {
-
         this.$log.log(`New connect for container ${controller.name}`)
         let instance = this.$injector.invoke(controller)
-
         const boundActionCreators = mapDispatchToProps((action) => {
           return this.store.dispatch(action)
         })
-
         instance = Object.assign(instance, props, boundActionCreators)
-
         let container = {
           mapStateToProps: mapStateToProps,
           instance: instance,
@@ -65,27 +70,34 @@
           currentProps: props
         }
         this.containers.push(container)
-
         this._enhanceContainer(container)
-
         return instance
       }
     }
 
+    /**
+     *
+     * @param actionCreator
+     * @param dispatch
+     * @returns {function(...[*]): *}
+     */
     bindActionCreator (actionCreator, dispatch) {
       return (...args) => dispatch(actionCreator(...args))
     }
 
+    /**
+     *
+     * @param actionCreators
+     * @param dispatch
+     * @returns {*}
+     */
     bindActionCreators (actionCreators, dispatch) {
       if (typeof actionCreators === 'function') {
         return this.bindActionCreator(actionCreators, dispatch)
       }
 
       if (typeof actionCreators !== 'object' || actionCreators === null) {
-        throw new Error(
-          `bindActionCreators expected an object or a function, instead received ${actionCreators === null ? 'null' : typeof actionCreators}. ` +
-          `Did you write "import ActionCreators from" instead of "import * as ActionCreators from"?`
-        )
+        throw new Error(`bindActionCreators expected an object or a function, instead received ${actionCreators === null ? 'null' : typeof actionCreators}. `)
       }
 
       const keys = Object.keys(actionCreators)
@@ -122,6 +134,11 @@
       })
     }
 
+    /**
+     *
+     * @param container
+     * @private
+     */
     _disconnectContainer (container) {
       let index = this.containers.indexOf(container)
       if (index !== -1) {
@@ -129,6 +146,11 @@
       }
     }
 
+    /**
+     *
+     * @param container
+     * @private
+     */
     _enhanceContainer (container) {
       let self = this
       let instance = container.instance
@@ -154,13 +176,16 @@
     }
   }
 
+  /**
+   * fluxHelperConnectServiceProvider
+   */
   const provider = function () {
     let options = {}
     this.setOptions = (opt) => {
       options = opt
     }
-    this.$get = ($injector, $log) => {
-      return new FluxHelperConnect(options, $injector, $log)
+    this.$get = ($injector, $log, fluxStoreService) => {
+      return new FluxHelperConnect(options, $injector, $log, fluxStoreService)
     }
   }
 

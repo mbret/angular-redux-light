@@ -1,19 +1,17 @@
-(function() {
+(function () {
 
-    const thunk = () => {
-        "ngInject";
-        return (store) => {
-            return (next) => {
-                return (action) => {
-                    return typeof action === 'function' ?
-                        action(store.dispatch, store.getState) :
-                        next(action)
-                }
-            }
+  const thunk = () => {
+    'ngInject'
+    return (store) => {
+      return (next) => {
+        return (action) => {
+          return typeof action === 'function' ? action(store.dispatch, store.getState) : next(action)
         }
+      }
     }
+  }
 
-    angular
-        .module("app.shared.fluxMiddlewares")
-        .factory("fluxMiddlewaresThunk", thunk)
-})();
+  angular
+    .module('app.shared.fluxMiddlewares')
+    .factory('fluxMiddlewaresThunkMiddleware', thunk)
+})()

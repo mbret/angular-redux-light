@@ -11,7 +11,4 @@
   angular
     .module('app.settings', [])
     .config(config)
-    .run(($log) => {
-      $log.log('run settings')
-    })
 })()

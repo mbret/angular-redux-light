@@ -1,8 +1,15 @@
 (function () {
 
+  /**
+   * Compose reducer functions right to left.
+   *
+   * @param {...Function} reducers The reducers functions to compose
+   * @returns {function} A function obtained by composing the previous reducer with the
+   * next one with action passed through the reducers.
+   */
   const reduceReducers = (...reducers) => {
-    return (previous, current) => {
-      return reducers.reduce((p, r) => r(p, current), previous)
+    return (state, action) => {
+      return reducers.reduce((a, b) => b(a, action), state)
     }
   }
 
@@ -42,18 +49,18 @@
    * @param {...Function} middlewares The middleware chain to be applied.
    * @returns {Function} A store enhancer applying the middleware.
    */
+  let i = 0
   const applyMiddleware = (...middlewares) => {
-    return (createStore, $injector) => (reducer, preloadedState, enhancer) => {
-      const store = createStore(reducer, preloadedState, enhancer)
+    return (createStore, $injector) => (reducer, preloadedState) => {
+      const store = createStore(reducer, preloadedState)
       let dispatch = store.dispatch
       const middlewareAPI = {
         getState: store.getState,
         dispatch: (action) => dispatch(action),
-        $injector: $injector
+        // $injector: $injector
       }
       let chain = middlewares.map(middleware => middleware(middlewareAPI))
       dispatch = compose(...chain)(store.dispatch)
-
       return Object.assign({}, store, {
         dispatch
       })
@@ -112,11 +119,27 @@
     this.combineReducers = combineReducers
     this.reduceReducers = reduceReducers
 
-    this.$get = () => {
+    this.$get = ($injector) => {
       return {
+        /**
+         * @see compose
+         */
         compose,
+
+        /**
+         * @see reduceReducers
+         */
         reduceReducers,
-        applyMiddleware
+
+        /**
+         * Wrapper for Angular DI
+         * @see applyMiddleware
+         * @param {...String} middlewares Array of injectable middlewares
+         * @returns {Function} A store enhancer applying the middleware.
+         */
+        applyMiddleware: (...middlewares) => {
+          return applyMiddleware(...middlewares.map(name => $injector.get(name)))
+        }
       }
     }
   }

@@ -1,12 +1,17 @@
 (function () {
 
   class FluxDebugService {
-    constructor (fluxHelperService) {
+    constructor (fluxHelperService, fluxDebugLoggerService) {
       this.fluxHelperService = fluxHelperService
+      this.fluxDebugLoggerService = fluxDebugLoggerService
     }
 
+    /**
+     * Return an enhancer that add new reducers/middleware to help debugging.
+     * @returns {*}
+     */
     enhance () {
-
+      const emptyEnhancer = (createStore) => (reducer, preloadedState, enhancer) => createStore(reducer, preloadedState, enhancer)
       const observerHandler = {
         get(target, key) {
           if (typeof target[key] === 'object' && target[key] !== null) {
@@ -17,18 +22,28 @@
         },
         set(target, key, value) {
           console.error(`You are mutating the property ${key} of store state. You should not mutate store directly, please verify that you do not have two-way binding set to the state.`)
+          console.trace(`State mutation trace`)
           target[key] = value
           return true
         },
       }
 
-      return (createStore) => (reducer, preloadedState, enhancer) => {
-        return createStore(this.fluxHelperService.reduceReducers(
-          reducer,
-          (state = {}) => {
-            return new Proxy(state, observerHandler)
-          },
-        ), preloadedState, enhancer)
+      return (createStore) => (reducer, preloadedState) => {
+        let store = createStore(
+          // add custom reducer
+          this.fluxHelperService.reduceReducers(
+            reducer,
+            // We apply a last reducer to mutate the store into a proxy and then being
+            // able to tracks changes into the store. Ex accidental store mutation.
+            (state = {}) => {
+              return new Proxy(state, observerHandler)
+            },
+          ),
+          // preloaded state
+          preloadedState
+        )
+        this.fluxDebugLoggerService.info('Store created!', Object.assign({}, store.getState()))
+        return store
       }
     }
   }

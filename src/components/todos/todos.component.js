@@ -23,11 +23,11 @@
             this.data = {
                 todo: "Something to do!"
             };
-            this.todos = this.fluxStoreService.getState().todos;
+            this.todos = Object.assign({}, this.fluxStoreService.getState().todos);
 
             // we synchronize scope with store
             this.unsubcribeStore = this.fluxStoreService.subscribe(() => {
-                this.todos = this.fluxStoreService.getState().todos
+                this.todos = Object.assign({}, this.fluxStoreService.getState().todos)
 
                 this.alerts.push({
                     date: new Date(),
@@ -46,7 +46,7 @@
         }
 
         $doCheck(changesObj) {
-            this.$log.log("$doCheck", changesObj);
+
         }
 
         onNewTodo() {
@@ -72,6 +72,6 @@
     };
 
     angular
-        .module("app")
+        .module("app.todos")
         .component("todos", component)
 })();

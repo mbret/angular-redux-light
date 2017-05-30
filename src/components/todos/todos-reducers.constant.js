@@ -21,6 +21,6 @@
     };
 
     angular
-        .module("app")
+        .module("app.todos")
         .constant("todosReducers", todos);
 })();

@@ -4,7 +4,7 @@
     <div ng-if="$ctrl.tweetsState == 'fetching'">
         <p>Tweets are fetching...</p>
     </div>
-    <div class="card card-inverse" style="background-color: #333; border-color: #333;" ng-repeat="tweet in $ctrl.tweets">
+    <div class="card card-inverse" style="background-color: #333; border-color: #333;" ng-repeat="tweet in $ctrl.tweets track by tweet.id">
         <div class="card-block">
             <h3 class="card-title">{{tweet.author}}, {{tweet.date}}</h3>
             <p class="card-text">{{tweet.content}}</p>

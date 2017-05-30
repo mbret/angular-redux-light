@@ -46,7 +46,9 @@
                 // update the component props.
                 (state) => {
                     return {
-                        todos: state.todos
+                        // Be careful when using object for ng-repeat as Angular will add $$hashKey to the object (and mutate it)
+                        // To avoid this, use immutable or track by option.
+                        todos: Object.assign({}, state.todos)
                     }
                 },
                 // The function dispatchActionToProps will automatically bind all actions to the component and wrap it
@@ -57,6 +59,6 @@
     };
 
     angular
-        .module("app")
+        .module("app.todos")
         .component("todosLessBoilerplate", component)
 })();

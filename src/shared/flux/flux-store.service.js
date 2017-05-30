@@ -14,12 +14,10 @@
      * @returns {*}
      */
     const createStore = (reducer, preloadedState, enhancer) => {
-
       if (enhancer) {
-        let enhancerInjected = $injector.invoke(enhancer)
-        return enhancerInjected(createStore, $injector)(reducer, preloadedState)
+        // @todo I think $injector may be removed (useless)
+        return enhancer(createStore)(reducer, preloadedState)
       }
-
       let currentState = preloadedState
       let isDispatching = false
       let currentReducer = reducer
@@ -101,8 +99,6 @@
         }
       }
 
-      $log.info('Store created')
-
       // When a store is created, an "INIT" action is dispatched so that every
       // reducer returns their initial state. This effectively populates
       // the initial state tree.
@@ -127,7 +123,7 @@
       return storeFactory($log, $injector)(
         $injector.invoke(options.reducer),
         options.preloadedState,
-        options.enhancer
+        $injector.invoke(options.enhancer)
       )
     }
   }

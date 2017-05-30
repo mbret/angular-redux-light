@@ -11,11 +11,11 @@
     }
 
     test () {
-      console.log('changed')
+
     }
 
     $doCheck () {
-      console.log('$doCheck')
+
     }
   }
 

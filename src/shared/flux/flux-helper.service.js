@@ -132,6 +132,11 @@
         reduceReducers,
 
         /**
+         * @see combineReducers
+         */
+        combineReducers,
+
+        /**
          * Wrapper for Angular DI
          * @see applyMiddleware
          * @param {...String} middlewares Array of injectable middlewares

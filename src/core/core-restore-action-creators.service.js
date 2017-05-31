@@ -26,6 +26,7 @@
 
     const persist = () => {
       window.localStorage.setItem('store.persist', JSON.stringify(fluxStoreService.getState()))
+      // @todo not used yet
       return {
         type: '@flux/persist'
       }

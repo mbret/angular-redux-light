@@ -1,4 +1,4 @@
-(function() {
+(function () {
 
   /**
    * In order to make flux works, we have to configure several things.
@@ -7,39 +7,22 @@
    *
    * We need to configure fluxHelperConnectServiceProvider as well in order to make it works with the current store.
    */
-  const config = ($urlServiceProvider, $injector, fluxStoreServiceProvider, todosReducers, tweetsReducers,
-                  settingsReducer, fluxHelperConnectServiceProvider, fluxHelperServiceProvider) => {
-
+  const config = ($urlServiceProvider, $injector, fluxStoreServiceProvider, fluxDebugServiceProvider) => {
     // Configure router
     $urlServiceProvider.rules.otherwise({state: 'app.todos'})
 
-    // Logs are configured inside /config/config.module.js
+    fluxDebugServiceProvider.setOptions({
+      watchReducers: true,
+      // @ngInject
+      getLogger: (coreLoggerService) => coreLoggerService
+    })
 
     // Configure store creation
     fluxStoreServiceProvider.setOptions({
-      reducer: (appCoreReducers) => {
-        'ngInject'
-        return fluxHelperServiceProvider.reduceReducers(
-          appCoreReducers,
-          fluxHelperServiceProvider.combineReducers({
-            todos: todosReducers,
-            tweets: tweetsReducers,
-            settings: settingsReducer
-          })
-        )
-      },
-      enhancer: (fluxHelperService, fluxDebugService) => {
-        'ngInject'
-        return fluxHelperService.compose(
-          fluxHelperService.applyMiddleware(
-            'fluxDebugMiddleware',
-            'fluxMiddlewaresThunkMiddleware',
-            'fluxMiddlewaresDigestMiddleware',
-          ),
-          // It's important to call debug at the end
-          fluxDebugService.enhance(),
-        )
-      },
+      // @ngInject
+      reducer: (appCoreReducer) => appCoreReducer,
+      // @ngInject
+      enhancer: (appCoreEnhancer) => appCoreEnhancer,
     })
   }
 

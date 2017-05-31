@@ -8,8 +8,6 @@
    */
   const router = (state = defaultState, action) => {
     switch (action.type) {
-      case "@flux/restore":
-        return action.state
       default:
         return state
     }
@@ -17,5 +15,7 @@
 
   angular
     .module('app.core')
-    .constant('appCoreRouterReducer', router)
+    .factory('appCoreRouterReducer', function () {
+      return router
+    })
 })()

@@ -28,5 +28,7 @@
 
   angular
     .module('app.core')
-    .constant('coreRestoreReducer', coreRestoreReducer)
+    .factory('coreRestoreReducer', function () {
+      return coreRestoreReducer
+    })
 })()

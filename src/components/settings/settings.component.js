@@ -13,10 +13,6 @@
     test () {
 
     }
-
-    $doCheck () {
-
-    }
   }
 
   const component = {

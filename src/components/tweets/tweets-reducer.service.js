@@ -25,5 +25,7 @@
 
   angular
     .module('app.tweets')
-    .constant('tweetsReducers', tweets)
+    .factory('tweetsReducer', (fluxDebugService) => {
+      return fluxDebugService.watchReducer(tweets)
+    })
 })()

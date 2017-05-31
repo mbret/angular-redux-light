@@ -1,16 +1,16 @@
 (function () {
 
-  const middleware = (fluxDebugLoggerService) => {
+  const middleware = (fluxDebugService) => {
     'ngInject'
     return (store) => {
       return (next) => {
         return action => {
           if (typeof action === 'object') {
-            fluxDebugLoggerService.info(`Action ${action.type} dispatch`, action, `state`, Object.assign({}, store.getState()))
+            fluxDebugService.logger.info(`[flux-debug] Action ${action.type} dispatch`, action, `state`, Object.assign({}, store.getState()))
           }
           let result = next(action)
           if (typeof action === 'object') {
-            fluxDebugLoggerService.info(`Action ${action.type} done`, action, `state`, Object.assign({}, store.getState()))
+            fluxDebugService.logger.info(`[flux-debug] Action ${action.type} done`, action, `state`, Object.assign({}, store.getState()))
           }
           return result
         }

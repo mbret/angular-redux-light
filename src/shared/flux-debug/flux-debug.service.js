@@ -1,9 +1,10 @@
 (function () {
 
   class FluxDebugService {
-    constructor (fluxHelperService, fluxDebugLoggerService) {
+    constructor (options, logger, fluxHelperService) {
+      this.options = options
       this.fluxHelperService = fluxHelperService
-      this.fluxDebugLoggerService = fluxDebugLoggerService
+      this.logger = logger
     }
 
     /**
@@ -42,13 +43,38 @@
           // preloaded state
           preloadedState
         )
-        this.fluxDebugLoggerService.info('Store created!', Object.assign({}, store.getState()))
+        this.logger.info('[flux-debug] Store created!', Object.assign({}, store.getState()))
         return store
       }
+    }
+
+    watchReducer (reducer) {
+      if (!this.options.watchReducers) {
+        return reducer
+      }
+      return (state, action) => {
+        this.logger.info(`[flux-debug] Reducer [${reducer.name}] enter for action [${action.type}]`, state)
+        let result = reducer(state, action)
+        this.logger.info(`[flux-debug] Reducer [${reducer.name}] leave `, result)
+        return result
+      }
+    }
+  }
+
+  const provider = function () {
+    let options = {
+      watchReducers: false,
+      getLogger: () => console
+    }
+    this.setOptions = (opt) => {
+      options = Object.assign(options, opt)
+    }
+    this.$get = (fluxHelperService, $injector) => {
+      return new FluxDebugService(options, $injector.invoke(options.getLogger), fluxHelperService)
     }
   }
 
   angular
     .module('app.shared.fluxDebug')
-    .service('fluxDebugService', FluxDebugService)
+    .provider('fluxDebugService', provider)
 })()

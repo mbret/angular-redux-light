@@ -58,11 +58,13 @@
       let props = mapStateToProps(this.store.getState()) || {}
       return (controller) => {
         this.$log.log(`New connect for container ${controller.name}`)
-        let instance = this.$injector.invoke(controller)
+        // instantiate return new instance for function unlike invoke
+        // debugger
+        let instance = this.$injector.instantiate(controller)
         const boundActionCreators = mapDispatchToProps((action) => {
           return this.store.dispatch(action)
         })
-        instance = Object.assign(instance, props, boundActionCreators)
+        Object.assign(instance, props, boundActionCreators)
         let container = {
           mapStateToProps: mapStateToProps,
           instance: instance,

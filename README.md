@@ -61,5 +61,5 @@ If you are going to use only the store in flavor of angular $scope old fashioned
 
 # Personal note
 Although using flux pattern in Angular application is pretty easy and works at the end, you should consider taking a look at React Or Vue.js as
-other framework (tools) which are way more dedicated to this king of architecture. Anyway, if you are using this code right here, I'm
-sure that you probably already started using React :)
+other framework which are way more flexible to this kind of architecture. Anyway, if you are using this code right here, I'm
+pretty sure that you are probably already using React :)

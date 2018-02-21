@@ -1,3 +1,6 @@
+/**
+ * @flow
+ */
 (function () {
 
   /**
@@ -9,9 +12,12 @@
    */
   const reduceReducers = (...reducers) => {
     return (state, action) => {
-      return reducers.reduce((a, b) => b(a, action), state)
-    }
-  }
+      return reducers.reduce(
+        (a, b) => b(a, action),
+        state
+    );
+    };
+  };
 
   /**
    * Composes single-argument functions from right to left. The rightmost
@@ -25,13 +31,13 @@
    */
   const compose = (...funcs) => {
     if (funcs.length === 0) {
-      return arg => arg
+      return arg => arg;
     }
     if (funcs.length === 1) {
-      return funcs[0]
+      return funcs[0];
     }
-    return funcs.reduce((a, b) => (...args) => a(b(...args)))
-  }
+    return funcs.reduce((a, b) => (...args) => a(b(...args)));
+  };
 
   /**
    * Creates a store enhancer that applies middleware to the dispatch method
@@ -49,23 +55,23 @@
    * @param {...Function} middlewares The middleware chain to be applied.
    * @returns {Function} A store enhancer applying the middleware.
    */
-  let i = 0
+    // let i = 0
   const applyMiddleware = (...middlewares) => {
     return (createStore, $injector) => (reducer, preloadedState) => {
-      const store = createStore(reducer, preloadedState)
-      let dispatch = store.dispatch
+      const store = createStore(reducer, preloadedState);
+      let dispatch = store.dispatch;
       const middlewareAPI = {
-        getState: store.getState,
-        dispatch: (action) => dispatch(action),
+          getState: store.getState,
+          dispatch: (action) => dispatch(action),
         // $injector: $injector
-      }
-      let chain = middlewares.map(middleware => middleware(middlewareAPI))
-      dispatch = compose(...chain)(store.dispatch)
+        };
+      let chain = middlewares.map(middleware => middleware(middlewareAPI));
+      dispatch = compose(...chain)(store.dispatch);
       return Object.assign({}, store, {
         dispatch
-      })
-    }
-  }
+      });
+    };
+  };
 
   /**
    * Turns an object whose values are different reducer functions, into a single
@@ -84,42 +90,38 @@
    * passed object, and builds a state object with the same shape.
    */
   const combineReducers = (reducers) => {
-    const reducerKeys = Object.keys(reducers)
-    const finalReducers = {}
+    const reducerKeys = Object.keys(reducers);
+    const finalReducers = {};
     for (let i = 0; i < reducerKeys.length; i++) {
-      const key = reducerKeys[i]
+      const key = reducerKeys[i];
       if (typeof reducers[key] === 'function') {
-        finalReducers[key] = reducers[key]
+        finalReducers[key] = reducers[key];
       }
     }
-    const finalReducerKeys = Object.keys(finalReducers)
+    const finalReducerKeys = Object.keys(finalReducers);
 
     return function combination (state = {}, action) {
-      let hasChanged = false
-      const nextState = {}
+      let hasChanged = false;
+      const nextState = {};
       for (let i = 0; i < finalReducerKeys.length; i++) {
-        const key = finalReducerKeys[i]
-        const reducer = finalReducers[key]
-        const previousStateForKey = state[key]
-        const nextStateForKey = reducer(previousStateForKey, action)
-        nextState[key] = nextStateForKey
-        hasChanged = hasChanged || nextStateForKey !== previousStateForKey
+        const key = finalReducerKeys[i];
+        const reducer = finalReducers[key];
+        const previousStateForKey = state[key];
+        const nextStateForKey = reducer(previousStateForKey, action);
+        nextState[key] = nextStateForKey;
+        hasChanged = hasChanged || nextStateForKey !== previousStateForKey;
       }
-      return hasChanged ? nextState : state
-    }
-  }
+      return hasChanged ? nextState : state;
+    };
+  };
 
-  const provider = function () {
-    let options = {}
-    this.setOptions = (opt) => {
-      options = opt
-    }
-
-    this.compose = compose
-    this.combineReducers = combineReducers
-    this.reduceReducers = reduceReducers
+  function provider () {
+    this.compose = compose;
+    this.combineReducers = combineReducers;
+    this.reduceReducers = reduceReducers;
 
     this.$get = ($injector) => {
+      'ngInject';
       return {
         /**
          * @see compose
@@ -139,17 +141,19 @@
         /**
          * Wrapper for Angular DI
          * @see applyMiddleware
-         * @param {...String} middlewares Array of injectable middlewares
+         * @param {...String} middleware Array of injectable middleware
          * @returns {Function} A store enhancer applying the middleware.
          */
-        applyMiddleware: (...middlewares) => {
-          return applyMiddleware(...middlewares.map(name => $injector.get(name)))
-        }
+        applyMiddleware: (...middleware) => {
+        return applyMiddleware(...middleware.map((nameOrInstance) => {
+          return typeof nameOrInstance === 'string' ? $injector.get(nameOrInstance) : nameOrInstance;
+        }));
       }
-    }
+    };
+    };
   }
 
   angular
     .module('app.shared.flux')
-    .provider('fluxHelperService', provider)
-})()
+    .provider('fluxHelperService', provider);
+})();

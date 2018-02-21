@@ -9,7 +9,7 @@ gulp.task('inject', () => {
                 read: false,
             })
         ), {
-            ignorePath: "./src",
+            ignorePath: "/src",
         })
         .pipe(gulp.dest('./src'));
 });

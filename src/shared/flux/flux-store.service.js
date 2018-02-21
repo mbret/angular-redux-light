@@ -3,30 +3,31 @@
   /**
    * We need to wrap createStore to keep the function clean and usable by enhancer chain functions.
    * This way we can still access angular dependencies and use it.
+   * @return {Function} Store enhancer
    */
-  const storeFactory = ($log, $injector) => {
+  const storeFactory = () => {
 
     /**
-     * Classic createStore function. This function can be used inside enhancer.
-     * @param {Function} reducer
-     * @param {any} preloadedState
-     * @param {Function} enhancer
-     * @returns {*}
+     * @description Classic createStore function. This function can be used inside enhancer.
+     * @param {Function} reducer -
+     * @param {any} preloadedState -
+     * @param {Function} enhancer -
+     * @returns {Object} Store
      */
     const createStore = (reducer, preloadedState, enhancer) => {
       if (enhancer) {
         // @todo I think $injector may be removed (useless)
-        return enhancer(createStore)(reducer, preloadedState)
+        return enhancer(createStore)(reducer, preloadedState);
       }
-      let currentState = preloadedState
-      let isDispatching = false
-      let currentReducer = reducer
-      let currentListeners = []
-      let nextListeners = currentListeners
+      let currentState = preloadedState;
+      // let isDispatching = false
+      let currentReducer = reducer;
+      let currentListeners = [];
+      let nextListeners = currentListeners;
 
       function ensureCanMutateNextListeners () {
         if (nextListeners === currentListeners) {
-          nextListeners = currentListeners.slice()
+          nextListeners = currentListeners.slice();
         }
       }
 
@@ -36,21 +37,21 @@
        * @returns {any} The current state tree of your application.
        */
       function getState () {
-        return currentState
+        return currentState;
       }
 
       function dispatch (action) {
-        isDispatching = true
-        currentState = currentReducer(currentState, action)
-        isDispatching = false
-        currentListeners = nextListeners
-        const listeners = currentListeners
+        // isDispatching = true
+        currentState = currentReducer(currentState, action);
+        // isDispatching = false
+        currentListeners = nextListeners;
+        const listeners = currentListeners;
         for (let i = 0; i < listeners.length; i++) {
-          const listener = listeners[i]
-          listener()
+          const listener = listeners[i];
+          listener();
         }
 
-        return action
+        return action;
       }
 
       /**
@@ -78,57 +79,61 @@
        */
       function subscribe (listener) {
         if (typeof listener !== 'function') {
-          throw new Error('Expected listener to be a function.')
+          throw new Error('Expected listener to be a function.');
         }
 
-        let isSubscribed = true
+        let isSubscribed = true;
 
-        ensureCanMutateNextListeners()
-        nextListeners.push(listener)
+        ensureCanMutateNextListeners();
+        nextListeners.push(listener);
 
         return function unsubscribe () {
           if (!isSubscribed) {
-            return
+            return;
           }
 
-          isSubscribed = false
+          isSubscribed = false;
 
-          ensureCanMutateNextListeners()
-          const index = nextListeners.indexOf(listener)
-          nextListeners.splice(index, 1)
-        }
+          ensureCanMutateNextListeners();
+          const index = nextListeners.indexOf(listener);
+          nextListeners.splice(index, 1);
+        };
       }
 
       // When a store is created, an "INIT" action is dispatched so that every
       // reducer returns their initial state. This effectively populates
       // the initial state tree.
-      dispatch({type: 'flux/INIT'})
+      dispatch({type: 'flux/INIT'});
 
       return {
         subscribe,
         getState,
         dispatch
-      }
-    }
+      };
+    };
 
-    return createStore
-  }
+    return createStore;
+  };
 
-  const provider = function () {
-    let options = {}
+  function provider () {
+    let options = {};
     this.setOptions = (opt) => {
-      options = opt
-    }
-    this.$get = ($log, $injector) => {
-      return storeFactory($log, $injector)(
+      options = Object.assign(options, opt);
+    };
+    this.$get = ($injector) => {
+      'ngInject';
+      if (!options.reducer || !options.enhancer) {
+        throw new Error('[brs-flux] Please verify that you have provided initial reducer / enhancer');
+      }
+      return storeFactory()(
         $injector.invoke(options.reducer),
         options.preloadedState,
         $injector.invoke(options.enhancer)
-      )
-    }
+      );
+    };
   }
 
   angular
     .module('app.shared.flux')
-    .provider('fluxStoreService', provider)
-})()
+    .provider('fluxStoreService', provider);
+})();

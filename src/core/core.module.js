@@ -17,10 +17,11 @@
       'app.settings',
       'app.todos',
       'app.tweets',
+      'app.form',
       'app.shared.flux',
       'app.shared.fluxMiddlewares',
       'app.shared.fluxDebug',
-      'app.shared.log',
+      'app.shared.log'
     ])
     .run(run)
 })()

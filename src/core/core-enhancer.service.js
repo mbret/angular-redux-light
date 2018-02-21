@@ -12,7 +12,7 @@
         ),
         // debug enhancer
         // It's important to call debug at the end
-        fluxDebugService.enhance(),
+        // fluxDebugService.enhance(),
       )
     })
 })()
